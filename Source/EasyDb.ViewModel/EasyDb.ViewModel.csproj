@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{863CCC99-5C07-46A8-A29F-6890CD606B0A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EasyDb.ViewModel</RootNamespace>
+    <AssemblyName>EasyDb.ViewModel</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BulkOutputVM.cs" />
+    <Compile Include="ColumnType.cs" />
+    <Compile Include="ColumnVM.cs" />
+    <Compile Include="CSharpTemplateVM.cs" />
+    <Compile Include="DatabaseAndTemplateVM.cs" />
+    <Compile Include="DatabaseVM.cs" />
+    <Compile Include="DebugPropertyVM.cs" />
+    <Compile Include="DebugVM.cs" />
+    <Compile Include="DefaultDatabaseVM.cs" />
+    <Compile Include="ExceptionVM.cs" />
+    <Compile Include="GenerateCodeVM.cs" />
+    <Compile Include="GeneratedCodeVM.cs" />
+    <Compile Include="LanguageVM.cs" />
+    <Compile Include="LinqExtensions.cs" />
+    <Compile Include="MainVM.cs" />
+    <Compile Include="OutputOptionsVM.cs" />
+    <Compile Include="OutputResultVM.cs" />
+    <Compile Include="OutputVM.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="RulesTemplateVM.cs" />
+    <Compile Include="RulesTemplateVMStrategy.cs" />
+    <Compile Include="SelectDatabaseVM.cs" />
+    <Compile Include="ServerVM.cs" />
+    <Compile Include="SqlColumnDescriptionVM.cs" />
+    <Compile Include="SqlTemplateVM.cs" />
+    <Compile Include="TemplatesVM.cs" />
+    <Compile Include="TableVM.cs" />
+    <Compile Include="TemplateVM.cs" />
+    <Compile Include="ViewModelBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EasyDb.Core\EasyDb.Data.csproj">
+      <Project>{f6d0ff25-9394-4bc0-815b-2cba48b61ab0}</Project>
+      <Name>EasyDb.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasyDb.Logic\EasyDb.Logic.csproj">
+      <Project>{10969738-CC97-472C-BD90-0CFC013DEA4D}</Project>
+      <Name>EasyDb.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasyDb.Model\EasyDb.Model.csproj">
+      <Project>{d614956c-b466-4f94-b8e2-4b67c7847796}</Project>
+      <Name>EasyDb.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EasyDBIcon.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
