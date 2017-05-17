@@ -1,0 +1,115 @@
+﻿<UserControl x:Class="EasyDb.SqlRulesUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:model="clr-namespace:EasyDb.Model;assembly=EasyDb.Model"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyDb"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="SqlStatementTypeEnums" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:SqlStatementType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="SqlObjectTypeEnums" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:SqlObjectType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Background="GhostWhite">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <local:ComboBoxUC LabelContent="Statement Type:" 
+                                  ItemsSource="{Binding Source={StaticResource SqlStatementTypeEnums}}"
+                                                      SelectedItem="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, 
+                                                Path=DataContext.DatabaseAndTemplateVM.TemplatesVM.SelectedTemplate.RulesTemplateVM.SqlStatementType}"
+                                  SelectionChangedCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},
+                                                            Path=DataContext.DatabaseAndTemplateVM.TemplatesVM.SelectedTemplate.RulesTemplateVM.StatementTypeChangedCommand}"
+                                  HorizontalAlignment="Left">
+
+                </local:ComboBoxUC>
+                <local:ComboBoxUC LabelContent="Object Type:" 
+                                  ItemsSource="{Binding Source={StaticResource SqlObjectTypeEnums}}"
+                                  SelectedItem="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, 
+                                                Path=DataContext.DatabaseAndTemplateVM.TemplatesVM.SelectedTemplate.RulesTemplateVM.SqlObjectType}"
+                                  HorizontalAlignment="Left">
+                </local:ComboBoxUC>
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="140"></ColumnDefinition>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="90"></ColumnDefinition>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Content="Add Ansi Null:"></Label>
+                <CheckBox Grid.Column="1" IsChecked="{Binding AddAnsiNull}"></CheckBox>
+                <Label Grid.Column="3" Content="Add Quoted Identifier:"></Label>
+                <CheckBox Grid.Column="4" IsChecked="{Binding AddQuotedIdentifier}"></CheckBox>
+                <Label Grid.Column="6" Content="Include Drop:"></Label>
+                <CheckBox Grid.Column="7" IsChecked="{Binding IncludeDrop}"></CheckBox>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="140"></ColumnDefinition>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Content="Include If Exists:"></Label>
+                <CheckBox Grid.Column="1" IsChecked="{Binding IncludeIfExists}"></CheckBox>
+                <Label Grid.Column="3" Content="Include Begin End:"></Label>
+                <CheckBox Grid.Column="4" IsChecked="{Binding IncludeBeginEnd}"></CheckBox>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="205"></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Content="Use Parameters to Generate Data:"></Label>
+                <CheckBox Grid.Column="1" IsChecked="{Binding UseParametersToGenerateData}"
+                          IsEnabled="{Binding EnableUseParameters}">
+                </CheckBox>
+            </Grid>
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="161"></ColumnDefinition>
+                    <ColumnDefinition Width="130"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Content="Prefix Name With:"></Label>
+                <TextBox Grid.Column="1" MaxLength="50"
+                                                 Text="{Binding PrefixNameWith}"></TextBox>
+            </Grid>
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="161"></ColumnDefinition>
+                    <ColumnDefinition Width="130"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Content="Prefix Name For Bulk Save:"></Label>
+                <TextBox Grid.Column="1" MaxLength="50"
+                                                 Text="{Binding PrefixNameForBulkSaveWith}"></TextBox>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,30 @@
+﻿<Window x:Class="EasyDb.AboutView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyDb"
+        mc:Ignorable="d"
+        Title="About Easy DB" Height="170" Width="375" WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Margin="5,5,5,5" TextWrapping="Wrap">
+            Easy DB
+            <LineBreak/>
+            <LineBreak/>
+            A database design and code generation tool by Garvan Butler
+            <LineBreak/>
+            <LineBreak/>
+            Version 1.0.0.0
+        </TextBlock>
+        <StackPanel Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                    Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button Content="OK" Name="OKButton" Margin="5,0,0,0"
+                    Click="OK_Click" VerticalAlignment="Center"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

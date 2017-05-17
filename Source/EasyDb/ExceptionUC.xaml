@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="EasyDb.ExceptionUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyDb"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="400">
+    <Border BorderBrush="Black" BorderThickness=".5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                <TextBlock VerticalAlignment="Center" Margin="5,5,5,5"
+                           FontFamily="Cambria" FontSize="13">Exception Details</TextBlock>
+            </Grid>
+            <Grid Grid.Row="1" Background="GhostWhite">
+                <TextBlock Margin="5,5,5,5" TextWrapping="Wrap">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0}{1}{2}{3}">
+                            <Binding Path="ExceptionDetails.Message" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" />
+                            <Binding Source="{x:Static s:Environment.NewLine}"/>
+                            <Binding Source="{x:Static s:Environment.NewLine}"/>
+                            <Binding Path="ExceptionDetails.InnerExceptionMessage" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Row="2" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                <Button Content="Close" Grid.Column="1" Command="{Binding CloseExceptionPopupCommand}"></Button>
+            </Grid>
+            <StatusBar Grid.Row="3" Name="stbStatus" Background="Red">
+                <StatusBarItem>
+                    <TextBlock Name="lblStatus" FontSize="12" Foreground="GhostWhite" Text="Error" VerticalAlignment="Center"></TextBlock>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,87 @@
+﻿<Window x:Class="EasyDb.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyDb"
+        xmlns:vm="clr-namespace:EasyDb.ViewModel;assembly=EasyDb.ViewModel"
+        xmlns:model="clr-namespace:EasyDb.Model;assembly=EasyDb.Model"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:properties="clr-namespace:EasyDb.Properties"
+        mc:Ignorable="d"
+        Height="600" Width="800" Name="Window"
+        WindowState="Maximized" 
+        Title="{Binding Source={x:Static properties:Settings.Default}, Path=ApplicationName}"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        
+    >
+    <Window.Resources>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConvertor"></local:BoolToVisibilityConverter>
+        <ObjectDataProvider x:Key="LanguageTypeEnums" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:LanguageType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <!--TextElement.Foreground="{DynamicResource MaterialDesignBody}"-->
+    <!--Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"-->
+    <!--Main grid-->
+    <Grid IsEnabled="{Binding MainGridEnabled}">
+        <Grid.RowDefinitions>
+            <!--Menu-->
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--Menu-->
+        <Menu Grid.Row="0" Background="#D6DBE9">
+            <MenuItem Background="#D6DBE9" Header="_File">
+                <MenuItem Header="_Change Connection" Command="{Binding ServerVM.ShowCommand}"></MenuItem>
+                <Separator Background="#D6DBE9" />
+                <MenuItem Header="_Exit" Click="Close_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_View" Margin="0">
+                <MenuItem Header="_Database &amp; Template Design" Command="{Binding SwitchViewCommand}" CommandParameter="{Binding DatabaseAndTemplateVM}"></MenuItem>
+                <MenuItem Header="_Bulk Output" Command="{Binding SwitchViewCommand}" CommandParameter="{Binding BulkOutputVM}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_Debug" Command="{Binding ShowHideDebugCommand}"></MenuItem>
+                <MenuItem Header="_About" Click="About_Click"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <!--Database and template design user control-->
+        <local:DatabaseAndTemplateUC Grid.Row="1" Visibility="{Binding IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConvertor}}" DataContext="{Binding DatabaseAndTemplateVM}">
+        </local:DatabaseAndTemplateUC>
+        <!--Bulk output user control-->
+        <local:BulkOutputView Grid.Row="1" Visibility="{Binding IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConvertor}}" DataContext="{Binding BulkOutputVM}">
+        </local:BulkOutputView>
+        <!--Exception popup-->
+        <Popup Name="PopupException" IsOpen="{Binding ShowException}" Placement="Center">
+            <local:ExceptionUC></local:ExceptionUC>
+            <i:Interaction.Behaviors>
+                <local:MouseDragPopupBehaviour/>
+            </i:Interaction.Behaviors>
+        </Popup>
+        <!--Debug popup-->
+        <Popup Name="PopupDebug" IsOpen="{Binding ShowDebug}" Placement="Center">
+            <local:DebugUC x:Name="DebugDisplay"></local:DebugUC>
+            <i:Interaction.Behaviors>
+                <local:MouseDragPopupBehaviour/>
+            </i:Interaction.Behaviors>
+        </Popup>
+        <!--Debug popup-->
+        <Popup Name="PopupServer" IsOpen="{Binding ServerVM.IsVisible}" Placement="Center">
+            <local:ServerUC x:Name="ServerConnectionPopup"></local:ServerUC>
+            <i:Interaction.Behaviors>
+                <local:MouseDragPopupBehaviour/>
+            </i:Interaction.Behaviors>
+        </Popup>
+    </Grid>
+</Window>

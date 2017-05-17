@@ -1,0 +1,314 @@
+﻿<UserControl x:Class="EasyDb.DatabaseAndTemplateUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyDb"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:model="clr-namespace:EasyDb.Model;assembly=EasyDb.Model"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800"
+             Name="DatabaseTemplateUC">
+    <UserControl.Resources>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConvertor"></local:BoolToVisibilityConverter>
+        <ObjectDataProvider x:Key="LanguageTypeEnums" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:LanguageType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <Grid Background="GhostWhite">
+        <Grid IsEnabled="{Binding MainGridEnabled}">
+            <Grid>
+                <Border BorderBrush="#2A3A56" BorderThickness="5" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <!--Database selection-->
+                            <RowDefinition Height="30"></RowDefinition>
+                            <!--Table selection-->
+                            <RowDefinition Height="120*"></RowDefinition>
+                            <!--Grid splitter-->
+                            <RowDefinition Height="5"></RowDefinition>
+                            <!--Template selection-->
+                            <RowDefinition Height="200*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <!--Database Selection-->
+                        <Grid Grid.Row="0" HorizontalAlignment="Left" Width="260">
+                            <local:ComboBoxUC x:Name="TEST" HorizontalAlignment="Left"
+                                LabelContent="Select database:"
+                                ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.ServerVM.SelectDatabaseVM.Databases, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectionChangedCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DatabaseAndTemplateVM.DatabaseChangedCommand}"
+                                SelectedItem="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DatabaseAndTemplateVM.SelectedDatabaseVM.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                >   
+                            </local:ComboBoxUC>
+                        </Grid>
+                        <!--Table selection-->
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Border Style="{StaticResource ThinBorder}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="30"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <TreeView BorderThickness="0">
+                                        <TreeViewItem Name="TreeViewItemTables" Header="Tables">
+                                            <TreeView Name="TreeViewTables" ItemsSource="{Binding SelectedDatabaseVM.TableVMs}" BorderThickness="0"
+                                                        Margin="-30,0,0,0" MouseDown="TreeViewTables_MouseDown">
+                                                <TreeView.ItemTemplate>
+                                                    <HierarchicalDataTemplate>
+                                                        <TextBlock Text="{Binding Name}" Margin="0" />
+                                                    </HierarchicalDataTemplate>
+                                                </TreeView.ItemTemplate>
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="SelectedItemChanged">
+                                                        <i:InvokeCommandAction 
+                                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DatabaseAndTemplateVM.SelectedTableChangedCommand}"
+                                                            CommandParameter="{Binding SelectedItem, ElementName=TreeViewTables}"
+                                                        />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </TreeView>
+                                        </TreeViewItem>
+                                    </TreeView>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" Background="#D6DBE9">
+                                        <TextBox Name="TextBoxTableName" Margin="5" Width="150" Text="{Binding SelectedDatabaseVM.NewTable.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                        <Button Style="{StaticResource PlusButton}" Click="SetTableAddFocus_Click" 
+                                        Command="{Binding SelectedDatabaseVM.AddTableCommand}"></Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="1" Style="{StaticResource ThinBorder}">
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="30"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid Background="Orange">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                            <ColumnDefinition Width="130" ></ColumnDefinition>
+                                            <ColumnDefinition Width="80"></ColumnDefinition>
+                                            <ColumnDefinition Width="70"></ColumnDefinition>
+                                            <ColumnDefinition Width="40"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Column" Style="{StaticResource HeadingLabel}"></Label>
+                                        <Label Grid.Column="1" Content="Type" Style="{StaticResource HeadingLabel}"></Label>
+                                        <Label Grid.Column="2" Content="Allow Nulls" Style="{StaticResource HeadingLabel}"></Label>
+                                        <Label Grid.Column="3" Content="Is Identity" Style="{StaticResource HeadingLabel}"></Label>
+                                    </Grid>
+                                    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+                                        <ItemsControl  Name="ItemsControlTableColumns"
+                                              AlternationCount="2" ItemsSource="{Binding SelectedDatabaseVM.SelectedTable.ColumnVMs}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="ColumnsGrid" Height="40">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                                            <ColumnDefinition Width="130"></ColumnDefinition>
+                                                            <ColumnDefinition Width="80"></ColumnDefinition>
+                                                            <ColumnDefinition Width="70"></ColumnDefinition>
+                                                            <ColumnDefinition Width="40"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBox Width="90" Text="{Binding Name}"></TextBox>
+                                                        <ComboBox Grid.Column="1" Name="TEST"
+                                                                    ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DatabaseAndTemplateVM.ColumnDescriptions}"
+                                                                    SelectedValue="{Binding Description.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                    SelectedValuePath="Value"
+                                                                    DisplayMemberPath="Description"
+                                                          >
+                                                            <!--ItemsSource="{Binding ElementName=DatabaseTemplateUC, Path=DataContext.ColumnDescriptions}"-->
+                                                         
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="SelectionChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding UpdateColumnCommand}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </ComboBox>
+                                                        <CheckBox Grid.Column="2"
+                                                          IsChecked="{Binding IsNullable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          >
+                                                        </CheckBox>
+                                                        <CheckBox Grid.Column="3"
+                                                          IsChecked="{Binding IsIdentity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          >
+                                                        </CheckBox>
+                                                        <Button Grid.Column="4" Style="{StaticResource XButton}"
+                                                            Command="{Binding ElementName=DatabaseTemplateUC, 
+                                                            Path=DataContext.SelectedDatabaseVM.SelectedTable.DeleteColumnCommand}"
+                                                            CommandParameter="{Binding }">
+                                                        </Button>
+                                                    </Grid>
+                                                    <DataTemplate.Triggers>
+                                                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                                                        </Trigger>
+                                                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                                            <Setter Property="Background" Value="AliceBlue" TargetName="ColumnsGrid"/>
+                                                        </Trigger>
+                                                    </DataTemplate.Triggers>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                    <Grid Grid.Row="2" Background="#D6DBE9" DataContext="{Binding SelectedDatabaseVM.SelectedTable.NewColumn}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                            <ColumnDefinition Width="130"></ColumnDefinition>
+                                            <ColumnDefinition Width="80"></ColumnDefinition>
+                                            <ColumnDefinition Width="70"></ColumnDefinition>
+                                            <ColumnDefinition Width="40"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Name="TextBoxColumnName" Margin="5" Width="90" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                                        <ComboBox Grid.Column="1" 
+                                                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DatabaseAndTemplateVM.ColumnDescriptions}"
+                                                  SelectedValue="{Binding Description.Value}"
+                                                  SelectedValuePath="Value"
+                                                  DisplayMemberPath="Description"
+                                                  >
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="SelectionChanged">
+                                                    <i:InvokeCommandAction Command="{Binding UpdateColumnCommand}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </ComboBox>
+                                        <CheckBox Grid.Column="2" IsChecked="{Binding IsNullable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+                                        <CheckBox Grid.Column="3" IsChecked="{Binding IsIdentity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+                                        <Button Grid.Column="4" Style="{StaticResource PlusButton}"  Click="SetColumnAddFocus_Click"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DatabaseAndTemplateVM.SelectedDatabaseVM.SelectedTable.AddColumnCommand}"
+                                            >
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <GridSplitter Grid.Row="2" Height="5" Width="1200" ResizeDirection="Rows"
+                              Background="#2A3A56" ShowsPreview="True"
+                                />
+                        <!--Template selection-->
+                        <Grid Grid.Row="3">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Border Style="{StaticResource ThinBorder}" Margin="5" >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Label Height="30" Content="Select Template" Background="CornflowerBlue" Style="{StaticResource HeadingLabel}"></Label>
+                                        <ListView Name="ListViewTemplates" Grid.Row="1" BorderThickness="0"
+                                          ItemsSource="{Binding TemplatesVM.Templates}" AlternationCount="2"
+                                          SelectedItem="{Binding TemplatesVM.SelectedTemplate}"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Label Content="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Label>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="SelectionChanged">
+                                                    <i:InvokeCommandAction Command="{Binding SelectedTemplateChangedCommand}"
+                                                                   CommandParameter="{Binding SelectedItem, ElementName=ListViewTemplates}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </ListView>
+                                    </Grid>
+                                </Border>
+                                <Grid Grid.Column="1" Margin="5">
+                                    <TabControl>
+                                        <TabItem Header="Preview">
+                                            <Grid Margin="-5">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"></RowDefinition>
+                                                    <RowDefinition Height="40"></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <Border>
+                                                    <TextBox BorderBrush="Black" BorderThickness=".5" Name="TextBoxCode" Style="{StaticResource MultiLineTextBox}" Text="{Binding GenerateCodeVM.SelectedCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                </Border>
+                                                <Border Grid.Row="1" BorderBrush="Black" BorderThickness=".5 0 .5 .5">
+                                                    <Grid Grid.Row="1" Background="#D6DBE9">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="90"></ColumnDefinition>
+                                                            <ColumnDefinition Width="90"></ColumnDefinition>
+                                                            <ColumnDefinition Width="90"></ColumnDefinition>
+                                                            <ColumnDefinition Width="90"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Button Grid.Column="1" Content="Clear"
+                                                        Command="{Binding GenerateCodeVM.ClearCodeCommand}"
+                                                        ></Button>
+                                                        <Button Grid.Column="2" Content="Save As"
+                                                        Command="{Binding OutputVM.SaveAsCodeCommand}"
+                                                        CommandParameter="{Binding GenerateCodeVM.SelectedCode}"
+                                                        IsEnabled="{Binding ElementName=TextBoxCode, Path=Text.Length}"></Button>
+                                                        <Button Grid.Column="3" Content="Copy"
+                                                        Command="{Binding OutputVM.CopyCodeCommand}"
+                                                        CommandParameter="{Binding GenerateCodeVM.SelectedCode}"
+                                                        IsEnabled="{Binding ElementName=TextBoxCode, Path=Text.Length}"></Button>
+                                                        <Button Grid.Column="4" Content="Generate"
+                                                        Command="{Binding GenerateCodeVM.GenerateCodeCommand}"
+                                                        ></Button>
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                        </TabItem>
+                                        <TabItem Header="Rules">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="40"></RowDefinition>
+                                                    <RowDefinition Height="*"></RowDefinition>
+                                                    <RowDefinition Height="40"></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Name:"></Label>
+                                                    <TextBox MaxLength="50" Width="200"  Text="{Binding TemplatesVM.SelectedTemplate.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                                    <!--<local:ComboBoxUC LabelContent="Select Language:" ItemsSource="{Binding ElementName=Window, Path=DataContext.Languages}"></local:ComboBoxUC>-->
+                                                    <local:ComboBoxUC LabelContent="Select Language:" ItemsSource="{Binding Source={StaticResource LanguageTypeEnums}}"
+                                                              SelectedItem="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DatabaseAndTemplateVM.TemplatesVM.SelectedTemplate.SelectedLanguageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                              SelectionChangedCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DatabaseAndTemplateVM.TemplatesVM.SelectedTemplate.LanguageChangedCommand}">
+                                                    </local:ComboBoxUC>
+                                                </StackPanel>
+                                                <local:SqlRulesUC Grid.Row="1"
+                                                              DataContext="{Binding TemplatesVM.SelectedTemplate.RulesTemplateVM}"
+                                                              Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DatabaseAndTemplateVM.TemplatesVM.SelectedTemplate.IsSql, Converter={StaticResource BoolToVisibilityConvertor}}"
+                                                        >
+                                                </local:SqlRulesUC>
+                                                <local:CSharpRulesUC Grid.Row="1"
+                                                                 DataContext="{Binding TemplatesVM.SelectedTemplate.RulesTemplateVM}"
+                                                                 Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.DatabaseAndTemplateVM.TemplatesVM.SelectedTemplate.IsCSharp, Converter={StaticResource BoolToVisibilityConvertor}}"
+                                                          >
+                                                </local:CSharpRulesUC>
+                                                <Grid Grid.Row="2">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="90"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button Grid.Column="1" Content="Save" Command="{Binding TemplatesVM.SelectedTemplate.SaveTemplateCommand}"></Button>
+                                                </Grid>
+                                            </Grid>
+                                        </TabItem>
+                                    </TabControl>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                    </Grid>
+                </Border>
+                <!--Status summary-->
+                <!--<StatusBar Grid.Row="2" Name="StatusBar" Background="CornflowerBlue">
+                    <StatusBarItem>
+                        <TextBlock Name="Status" FontSize="12" Foreground="White" Text="Ready" VerticalAlignment="Center"></TextBlock>
+                    </StatusBarItem>
+                </StatusBar>-->
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
