@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyDb.View", "EasyDb\EasyDb.View.csproj", "{06AB609A-C030-412E-8CC5-33F5DF46FD1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyDb.ViewModel", "EasyDb.ViewModel\EasyDb.ViewModel.csproj", "{863CCC99-5C07-46A8-A29F-6890CD606B0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyDb.Data", "EasyDb.Core\EasyDb.Data.csproj", "{F6D0FF25-9394-4BC0-815B-2CBA48B61AB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyDb.Logic", "EasyDb.Logic\EasyDb.Logic.csproj", "{10969738-CC97-472C-BD90-0CFC013DEA4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyDb.Model", "EasyDb.Model\EasyDb.Model.csproj", "{D614956C-B466-4F94-B8E2-4B67C7847796}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{06AB609A-C030-412E-8CC5-33F5DF46FD1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06AB609A-C030-412E-8CC5-33F5DF46FD1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06AB609A-C030-412E-8CC5-33F5DF46FD1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06AB609A-C030-412E-8CC5-33F5DF46FD1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{863CCC99-5C07-46A8-A29F-6890CD606B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{863CCC99-5C07-46A8-A29F-6890CD606B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{863CCC99-5C07-46A8-A29F-6890CD606B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{863CCC99-5C07-46A8-A29F-6890CD606B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D0FF25-9394-4BC0-815B-2CBA48B61AB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D0FF25-9394-4BC0-815B-2CBA48B61AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D0FF25-9394-4BC0-815B-2CBA48B61AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D0FF25-9394-4BC0-815B-2CBA48B61AB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10969738-CC97-472C-BD90-0CFC013DEA4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10969738-CC97-472C-BD90-0CFC013DEA4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10969738-CC97-472C-BD90-0CFC013DEA4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10969738-CC97-472C-BD90-0CFC013DEA4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D614956C-B466-4F94-B8E2-4B67C7847796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D614956C-B466-4F94-B8E2-4B67C7847796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D614956C-B466-4F94-B8E2-4B67C7847796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D614956C-B466-4F94-B8E2-4B67C7847796}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://garvan.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = EasyDb.ViewModel\\EasyDb.ViewModel.csproj
+		SccProjectName1 = EasyDb.ViewModel
+		SccLocalPath1 = EasyDb.ViewModel
+		SccProjectUniqueName2 = EasyDb\\EasyDb.View.csproj
+		SccProjectName2 = EasyDb
+		SccLocalPath2 = EasyDb
+		SccProjectUniqueName3 = EasyDb.Core\\EasyDb.Data.csproj
+		SccProjectName3 = EasyDb.Core
+		SccLocalPath3 = EasyDb.Core
+		SccProjectUniqueName4 = EasyDb.Logic\\EasyDb.Logic.csproj
+		SccProjectName4 = EasyDb.Logic
+		SccLocalPath4 = EasyDb.Logic
+		SccProjectUniqueName5 = EasyDb.Model\\EasyDb.Model.csproj
+		SccProjectName5 = EasyDb.Model
+		SccLocalPath5 = EasyDb.Model
+	EndGlobalSection
+EndGlobal
